@@ -8,7 +8,7 @@ Aplikacja dla programistów, którzy potrzebują przeformatować lub filtrować 
 
 
 ### Autorzy
-Anna Gąsiorowska 155933
-Hanna Kerebińska 155877
-Stanisław Mazik 156001
-Michał Olejniczak 155927
+- Anna Gąsiorowska 155933
+- Hanna Kerebińska 155877
+- Stanisław Mazik 156001 
+- Michał Olejniczak 155927
