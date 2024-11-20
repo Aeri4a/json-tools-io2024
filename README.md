@@ -1,4 +1,4 @@
-# JSIN-Tools 
+# JSON-Tools
 
 ## Inżynieria Oprogramowania 2024
 
