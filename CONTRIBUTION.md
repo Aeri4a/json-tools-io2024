@@ -30,3 +30,29 @@ version. Tak jak wyżej, wykonanie tego skryptu powoduje wykonanie się akcji do
 - Commity po polsku
 
 ## Dokumentacja
+Dokumentacja pisana po polsku, w trzeciej osobie i generowana jako JavaDoc.
+
+Pierwsze zdanie będące zwięzłym opisem zaczyna się od czasownika.
+#### Przykładowy doc comment dla metody:
+```java
+/**
+* Oblicza iloraz dwóch liczb.
+*
+* @param a dzielna 
+* @param b dzielnik
+* @return wynik dzielenia liczby a przez liczbę b
+*/
+```
+#### Kolejność tagów:
+- `@param` (dla metod i konstruktorów)
+- `@return` (dla metod)
+- `@exception` (dla metod)
+#### Zalecane jest używanie  `<code>...</code>` dla kluczowych słów/nazw takich jak:
+- Java keywords
+- package names
+- class names
+- method names
+- interface names
+- field names
+- argument names
+- code examples
