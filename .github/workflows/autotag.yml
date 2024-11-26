@@ -1,0 +1,35 @@
+name: autotag.yml
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  tag:
+    name: Auto tagger
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            pom:
+              - 'pom.xml'
+      - if: steps.changes.outputs.pom == 'true'
+        name: Set up Java 21 JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'oracle'
+          architecture: x64
+      - if: steps.changes.outputs.pom == 'true'
+        name: Run the auto tagger script
+        run: sh feature-push-tag.sh
+        working-directory: scripts
