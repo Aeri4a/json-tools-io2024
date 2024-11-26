@@ -31,5 +31,9 @@ jobs:
           architecture: x64
       - if: steps.changes.outputs.pom == 'true'
         name: Run the auto tagger script
-        run: sh feature-push-tag.sh
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          chmod u+x feature-push-tag.sh
+          ./feature-push-tag.sh
         working-directory: scripts
