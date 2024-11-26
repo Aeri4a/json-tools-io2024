@@ -36,6 +36,3 @@ echo "Successfully bumped version to $new_proj_ver!"
 git add pom.xml
 git commit -qm "Nowy release: $new_proj_ver"
 git push -q
-
-git tag -a v"$new_proj_ver" -m "v$new_proj_ver"
-git push --tags -q
