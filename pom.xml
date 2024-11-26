@@ -52,36 +52,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>com.amashchenko.maven.plugin</groupId>
-                <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.21.0</version>
-                <configuration>
-                    <installProject>false</installProject>
-                    <featureSquash>true</featureSquash>
-                    <skipFeatureVersion>true</skipFeatureVersion>
-
-                    <gitFlowConfig>
-                        <productionBranch>main</productionBranch>
-                        <developmentBranch>main</developmentBranch>
-                        <featureBranchPrefix>feat/</featureBranchPrefix>
-                        <versionTagPrefix>v</versionTagPrefix>
-                        <origin>origin</origin>
-                    </gitFlowConfig>
-
-                    <commitMessages>
-                        <featureStartMessage>Nowy feature branch @{featureName}</featureStartMessage>
-                        <featureFinishMessage>Finalizacja feature @{featureName}</featureFinishMessage>
-
-                        <releaseFinishMessage>Nowy release, aktualizacja wersji do @{version}</releaseFinishMessage>
-                        <releaseVersionUpdateMessage>Nowy release, aktualizacja wersji do @{version}</releaseVersionUpdateMessage>
-
-                        <featureFinishIncrementVersionMessage>Aktualizacja wersji do @{version}</featureFinishIncrementVersionMessage>
-
-                        <versionUpdateMessage>Aktualizacja wersji do @{version}</versionUpdateMessage>
-                    </commitMessages>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
