@@ -12,3 +12,6 @@ Aplikacja dla programistów, którzy potrzebują przeformatować lub filtrować 
 - Hanna Kerebińska 155877
 - Stanisław Mazik 156001 
 - Michał Olejniczak 155927
+
+## Arkusz z zajęć
+[Link do arkusza](https://docs.google.com/spreadsheets/d/1IZWWbCmet-JHLmS4naUH6gEgQkCjTQKE/edit?usp=sharing&ouid=107392594177610901471&rtpof=true&sd=true)
