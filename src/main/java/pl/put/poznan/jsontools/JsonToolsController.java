@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.put.poznan.jsontools.dto.JsonDto;
 
 @RestController
 @RequestMapping("/json")
@@ -17,16 +18,16 @@ public class JsonToolsController {
     }
 
     @PostMapping("/minify")
-    public ResponseEntity<String> minifyJson(@RequestBody String inputJson) {
-        logger.debug(inputJson);
+    public ResponseEntity<JsonDto> minifyJson(@RequestBody JsonDto inputJson) {
+        logger.debug(inputJson.toString());
 
-        return ResponseEntity.ok(jsonToolsService.minify(inputJson));
+        return ResponseEntity.ok(new JsonDto(jsonToolsService.minify(inputJson.jsonString())));
     }
 
     @PostMapping("/format")
-    public ResponseEntity<String> formatJson(@RequestBody String inputJson) {
-        logger.debug(inputJson);
+    public ResponseEntity<JsonDto> formatJson(@RequestBody JsonDto inputJson) {
+        logger.debug(inputJson.toString());
 
-        return ResponseEntity.ok(jsonToolsService.format(inputJson));
+        return ResponseEntity.ok(new JsonDto(jsonToolsService.format(inputJson.jsonString())));
     }
 }
