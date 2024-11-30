@@ -34,6 +34,6 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "github-actions@users.noreply.github.com"
-          # chmod u+x feature-push-tag.sh
-          ./feature-push-tag.sh
+          chmod u+x feat-push-tag.sh
+          ./feat-push-tag.sh
         working-directory: scripts
