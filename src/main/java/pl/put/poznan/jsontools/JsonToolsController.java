@@ -19,14 +19,16 @@ public class JsonToolsController {
 
     @PostMapping("/minify")
     public ResponseEntity<JsonDto> minifyJson(@RequestBody JsonDto inputJson) {
-        logger.debug(inputJson.toString());
+        logger.info("localhost:8080/minify");
+        logger.debug("request body: {}", inputJson.toString());
 
         return ResponseEntity.ok(new JsonDto(jsonToolsService.minify(inputJson.jsonString())));
     }
 
     @PostMapping("/format")
     public ResponseEntity<JsonDto> formatJson(@RequestBody JsonDto inputJson) {
-        logger.debug(inputJson.toString());
+        logger.info("localhost:8080/format");
+        logger.debug("request body: {}", inputJson.toString());
 
         return ResponseEntity.ok(new JsonDto(jsonToolsService.format(inputJson.jsonString())));
     }
