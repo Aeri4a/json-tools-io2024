@@ -1,4 +1,4 @@
-package pl.put.poznan.jsontools;
+package pl.put.poznan.jsontools.types;
 
 import java.util.Map;
 import java.util.Objects;
