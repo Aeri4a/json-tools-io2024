@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.put.poznan.jsontools.dto.JsonDto;
+import pl.put.poznan.jsontools.types.JsonDto;
 
 @RestController
 @RequestMapping("/json")
