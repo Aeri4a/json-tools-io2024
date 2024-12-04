@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.types.JsonDto;
 
 @RestController
@@ -24,8 +25,13 @@ public class JsonToolsController {
     public ResponseEntity<JsonDto> minifyJson(@RequestBody JsonDto inputJson) {
         logger.info("localhost:8080/minify");
         logger.debug("request body: {}", inputJson.toString());
+        JsonDto minified_json = jsonToolsService.minify(inputJson);
 
-        return ResponseEntity.ok(jsonToolsService.minify(inputJson));
+        if (minified_json == null) {
+            throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
+        }
+
+        return ResponseEntity.ok(minified_json);
     }
 
     @PostMapping("/format")
