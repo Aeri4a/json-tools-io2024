@@ -21,4 +21,9 @@ public class JsonMapper {
     public JsonDto toJsonDto(JsonObject jsonObject) throws JsonProcessingException {
         return new JsonDto(objectMapper.writeValueAsString(jsonObject.getValues()));
     }
+
+    public JsonDto toJsonDtoWithFormat(JsonObject jsonObject) throws JsonProcessingException {
+        return new JsonDto(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject.getValues()));
+    }
+
 }
