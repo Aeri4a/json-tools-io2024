@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.jsonmapper.JsonMapper;
 import pl.put.poznan.jsontools.types.JsonDto;
+import pl.put.poznan.jsontools.types.JsonObject;
 
 @Service
 public class JsonToolsService {
@@ -26,6 +27,11 @@ public class JsonToolsService {
     }
 
     public JsonDto format(JsonDto inputJson) {
-        return new JsonDto(inputJson.jsonString().toUpperCase());
+        try {
+            JsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
+            return jsonMapper.toJsonDtoWithFormat(jsonObject);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 }

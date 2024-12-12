@@ -2,6 +2,7 @@ package pl.put.poznan.jsontools;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,11 @@ public class JsonToolsController {
     public ResponseEntity<JsonDto> formatJson(@RequestBody JsonDto inputJson) {
         logger.info("localhost:8080/format");
         logger.debug("request body: {}", inputJson.toString());
+
+        JsonDto formattedJson = jsonToolsService.format(inputJson);
+
+        if (formattedJson == null)
+            return new ResponseEntity<>((JsonDto) null, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(jsonToolsService.format(inputJson));
     }
