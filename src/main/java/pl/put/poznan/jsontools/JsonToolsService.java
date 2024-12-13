@@ -10,7 +10,7 @@ import pl.put.poznan.jsontools.types.JsonObject;
 @Service
 public class JsonToolsService {
 
-    private JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     /**
      * Minifikuje otrzymaną strukturę JSON
@@ -31,7 +31,7 @@ public class JsonToolsService {
             JsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
             return jsonMapper.toJsonDtoWithFormat(jsonObject);
         } catch (JsonProcessingException e) {
-            return null;
+            throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
         }
     }
 }
