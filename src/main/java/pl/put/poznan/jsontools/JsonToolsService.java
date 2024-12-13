@@ -26,6 +26,13 @@ public class JsonToolsService {
         }
     }
 
+    /**
+     * Przekształca JSON w zminifikowanym zapisie na pełną strukturę. Jeżeli JSON jest w syntaktycznie niepoprawny,
+     * metoda wyrzuca wyjątek InvalidInputException
+     *
+     * @param inputJson obiekt zawierający String w formacie JSON
+     * @return Obiekt zawierający String pełnej, sformatowanej struktury JSON.
+     */
     public JsonDto format(JsonDto inputJson) {
         try {
             JsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
