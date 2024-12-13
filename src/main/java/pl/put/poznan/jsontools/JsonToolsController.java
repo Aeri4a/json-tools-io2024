@@ -25,12 +25,8 @@ public class JsonToolsController {
     public ResponseEntity<JsonDto> minifyJson(@RequestBody JsonDto inputJson) {
         logger.info("localhost:8080/minify");
         logger.debug("request body: {}", inputJson.toString());
+
         JsonDto minified_json = jsonToolsService.minify(inputJson);
-
-        if (minified_json == null) {
-            throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
-        }
-
         return ResponseEntity.ok(minified_json);
     }
 
