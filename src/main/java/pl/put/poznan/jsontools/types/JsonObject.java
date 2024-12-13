@@ -6,17 +6,19 @@ import java.util.Objects;
 /**
  * Struktura przechowująca JSONa w postaci mapy klucz-wartość
  */
-public class JsonObject {
+public class JsonObject implements IJsonObject {
     private Map<String, Object> values;
 
     public JsonObject(Map<String, Object> values) {
         this.values = values;
     }
 
+    @Override
     public Map<String, Object> getValues() {
         return values;
     }
 
+    @Override
     public void setValues(Map<String, Object> values) {
         this.values = values;
     }
