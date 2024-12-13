@@ -3,9 +3,13 @@ package pl.put.poznan.jsontools.jsonmapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
+import pl.put.poznan.jsontools.decorations.InclusionDecorator;
+import pl.put.poznan.jsontools.decorations.JsonDecorator;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,9 +28,16 @@ public class JsonMapper {
      * @see JsonDto
      */
     public JsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
-        Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {
-        });
-        return new JsonObject(jsonValues);
+        Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {});
+        JsonObject jsonObject = new JsonObject(jsonValues);
+        if (jsonDto.includeKeys() != null) {
+            JsonDecorator decorator = new InclusionDecorator(jsonObject, jsonDto.includeKeys());
+            decorator.setValues(jsonValues);
+        }
+        if (jsonDto.excludeKeys() != null) {
+            ;
+        }
+        return jsonObject;
     }
 
     /**
