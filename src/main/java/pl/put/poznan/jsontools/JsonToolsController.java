@@ -32,11 +32,12 @@ public class JsonToolsController {
     }
 
     @PostMapping("/format")
-    public ResponseEntity<JsonDto> formatJson(@RequestBody JsonDto inputJson) {
-        logger.info("localhost:8080/format");
-        logger.debug("request body: {}", inputJson.toString());
+    public ResponseEntity<JsonDto> formatJson(@RequestBody JsonDto inputJson, HttpServletRequest request) {
+        logger.info("handled request at {}", request.getRequestURL().toString());
+        logger.debug("request body at formatJson: {}", inputJson.jsonString());
 
         JsonDto formattedJson = jsonToolsService.format(inputJson);
+        logger.debug("formatted JSON:\n{}", formattedJson.jsonString());
         return ResponseEntity.ok(formattedJson);
     }
 }

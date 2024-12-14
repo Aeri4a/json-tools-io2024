@@ -42,6 +42,7 @@ public class JsonToolsService {
             JsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
             return jsonMapper.toJsonDtoWithFormat(jsonObject);
         } catch (JsonProcessingException e) {
+            logger.debug("tried minifying an invalid JSON: {}", inputJson.jsonString());
             throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
         }
     }
