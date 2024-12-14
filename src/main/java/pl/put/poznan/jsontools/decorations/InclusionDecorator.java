@@ -1,5 +1,6 @@
 package pl.put.poznan.jsontools.decorations;
 
+import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.types.IJsonObject;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class InclusionDecorator extends JsonDecorator {
 
         for (String key : keys) {
             if (!map.containsKey(key)) {
-                // TODO: throw error
+                throw new InvalidInputException("jsonString nie zawiera w sobie klucza: " + key);
             } else {
                 filteredMap.put(key, map.get(key));
             }
