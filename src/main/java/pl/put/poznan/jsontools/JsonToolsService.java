@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.jsonmapper.JsonMapper;
 import pl.put.poznan.jsontools.types.JsonDto;
+import pl.put.poznan.jsontools.types.JsonObject;
 
 @Service
 public class JsonToolsService {
 
-    private JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     /**
      * Minifikuje otrzymaną strukturę JSON
@@ -25,7 +26,19 @@ public class JsonToolsService {
         }
     }
 
+    /**
+     * Przekształca JSON w zminifikowanym zapisie na pełną strukturę. Jeżeli JSON jest syntaktycznie niepoprawny,
+     * metoda wyrzuca wyjątek InvalidInputException
+     *
+     * @param inputJson obiekt zawierający String w formacie JSON
+     * @return Obiekt zawierający String pełnej, sformatowanej struktury JSON.
+     */
     public JsonDto format(JsonDto inputJson) {
-        return new JsonDto(inputJson.jsonString().toUpperCase());
+        try {
+            JsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
+            return jsonMapper.toJsonDtoWithFormat(jsonObject);
+        } catch (JsonProcessingException e) {
+            throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
+        }
     }
 }

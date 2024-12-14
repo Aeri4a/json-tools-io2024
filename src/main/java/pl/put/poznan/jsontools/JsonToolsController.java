@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.types.JsonDto;
 
 @RestController
@@ -35,6 +34,7 @@ public class JsonToolsController {
         logger.info("localhost:8080/format");
         logger.debug("request body: {}", inputJson.toString());
 
-        return ResponseEntity.ok(jsonToolsService.format(inputJson));
+        JsonDto formattedJson = jsonToolsService.format(inputJson);
+        return ResponseEntity.ok(formattedJson);
     }
 }

@@ -3,6 +3,9 @@ package pl.put.poznan.jsontools.types;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Struktura przechowująca JSONa w postaci mapy klucz-wartość
+ */
 public class JsonObject {
     private Map<String, Object> values;
 
