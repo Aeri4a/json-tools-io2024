@@ -30,6 +30,7 @@ public class JsonMapper {
     public JsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
         Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {});
         JsonObject jsonObject = new JsonObject(jsonValues);
+
         if (jsonDto.includeKeys() != null) {
             JsonDecorator decorator = new InclusionDecorator(jsonObject, jsonDto.includeKeys());
             decorator.setValues(jsonValues);

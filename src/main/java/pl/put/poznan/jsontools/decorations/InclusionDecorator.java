@@ -10,10 +10,12 @@ public class InclusionDecorator extends JsonDecorator {
     public InclusionDecorator(IJsonObject jsonObject, List<String> keys) {
         super(jsonObject, keys);
     }
+
     @Override
     public void setValues(Map<String, Object> values) {
         super.setValues(filter(values));
     }
+
     private Map<String, Object> filter(Map<String, Object> values) {
         for (String key : keys) {
             values.remove(key);
