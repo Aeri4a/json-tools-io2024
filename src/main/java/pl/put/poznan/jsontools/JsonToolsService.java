@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.jsonmapper.JsonMapper;
+import pl.put.poznan.jsontools.types.IJsonObject;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
 
@@ -39,7 +40,7 @@ public class JsonToolsService {
      */
     public JsonDto format(JsonDto inputJson) {
         try {
-            JsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
+            IJsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
             return jsonMapper.toJsonDtoWithFormat(jsonObject);
         } catch (JsonProcessingException e) {
             logger.debug("tried minifying an invalid JSON: {}", inputJson.jsonString());

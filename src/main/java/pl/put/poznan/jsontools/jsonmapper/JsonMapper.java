@@ -3,9 +3,13 @@ package pl.put.poznan.jsontools.jsonmapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
+import pl.put.poznan.jsontools.decorations.InclusionDecorator;
+import pl.put.poznan.jsontools.types.IJsonObject;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,10 +27,18 @@ public class JsonMapper {
      * @see JsonObject
      * @see JsonDto
      */
-    public JsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
-        Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {
-        });
-        return new JsonObject(jsonValues);
+    public IJsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
+        Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {});
+        IJsonObject jsonObject = new JsonObject(jsonValues);
+
+        if (jsonDto.includeKeys() != null) {
+            jsonObject = new InclusionDecorator(jsonObject, jsonDto.includeKeys());
+        }
+        if (jsonDto.excludeKeys() != null) {
+            ;
+        }
+
+        return jsonObject;
     }
 
     /**
@@ -38,8 +50,8 @@ public class JsonMapper {
      * @see JsonObject
      * @see JsonDto
      */
-    public JsonDto toJsonDto(JsonObject jsonObject) throws JsonProcessingException {
-        return new JsonDto(objectMapper.writeValueAsString(jsonObject.getValues()));
+    public JsonDto toJsonDto(IJsonObject jsonObject) throws JsonProcessingException {
+        return new JsonDto(objectMapper.writeValueAsString(jsonObject.getValues()), null, null);
     }
 
     /**
@@ -52,8 +64,8 @@ public class JsonMapper {
      * @see JsonObject
      * @see JsonDto
      */
-    public JsonDto toJsonDtoWithFormat(JsonObject jsonObject) throws JsonProcessingException {
-        return new JsonDto(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject.getValues()));
+    public JsonDto toJsonDtoWithFormat(IJsonObject jsonObject) throws JsonProcessingException {
+        return new JsonDto(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject.getValues()), null, null);
     }
 
 }
