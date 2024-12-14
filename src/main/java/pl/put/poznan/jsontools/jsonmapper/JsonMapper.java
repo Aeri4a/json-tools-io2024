@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import pl.put.poznan.jsontools.decorations.InclusionDecorator;
-import pl.put.poznan.jsontools.decorations.JsonDecorator;
+import pl.put.poznan.jsontools.types.IJsonObject;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
 
@@ -27,17 +27,17 @@ public class JsonMapper {
      * @see JsonObject
      * @see JsonDto
      */
-    public JsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
+    public IJsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
         Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {});
-        JsonObject jsonObject = new JsonObject(jsonValues);
+        IJsonObject jsonObject = new JsonObject(jsonValues);
 
         if (jsonDto.includeKeys() != null) {
-            JsonDecorator decorator = new InclusionDecorator(jsonObject, jsonDto.includeKeys());
-            decorator.setValues(jsonValues);
+            jsonObject = new InclusionDecorator(jsonObject, jsonDto.includeKeys());
         }
         if (jsonDto.excludeKeys() != null) {
             ;
         }
+
         return jsonObject;
     }
 
@@ -50,9 +50,8 @@ public class JsonMapper {
      * @see JsonObject
      * @see JsonDto
      */
-    public JsonDto toJsonDto(JsonObject jsonObject) throws JsonProcessingException {
-        return new JsonDto(objectMapper.writeValueAsString(jsonObject.getValues()));
-    }
+    public JsonDto toJsonDto(IJsonObject jsonObject) throws JsonProcessingException {
+        return new JsonDto(objectMapper.writeValueAsString(jsonObject.getValues()), null, null);
 
     /**
      * Mapuje strukturę JsonObject na strukturę JsonDto, zachowując wszystkie pary klucz-wartość oryginalnego JSONa.

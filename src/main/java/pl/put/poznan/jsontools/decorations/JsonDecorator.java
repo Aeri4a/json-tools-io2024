@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class JsonDecorator implements IJsonObject {
-    private IJsonObject jsonObject;
+    protected IJsonObject jsonObject;
     protected List<String> keys;
+
     JsonDecorator(IJsonObject jsonObject, List<String> keys) {
         this.jsonObject = jsonObject;
         this.keys = keys;
     }
+
     @Override
     public Map<String, Object> getValues() {
         return jsonObject.getValues();
@@ -20,15 +22,5 @@ public abstract class JsonDecorator implements IJsonObject {
     @Override
     public void setValues(Map<String, Object> values) {
         jsonObject.setValues(values);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-       return jsonObject.equals(o);
-    }
-
-    @Override
-    public String toString() {
-        return jsonObject.toString();
     }
 }

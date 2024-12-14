@@ -1,25 +1,29 @@
 package pl.put.poznan.jsontools.decorations;
 
 import pl.put.poznan.jsontools.types.IJsonObject;
-import pl.put.poznan.jsontools.types.JsonObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class InclusionDecorator extends JsonDecorator {
     public InclusionDecorator(IJsonObject jsonObject, List<String> keys) {
         super(jsonObject, keys);
+        filter();
     }
 
-    @Override
-    public void setValues(Map<String, Object> values) {
-        super.setValues(filter(values));
-    }
+    private void filter() {
+        Map<String, Object> map = this.jsonObject.getValues();
+        Map<String, Object> filteredMap = new HashMap<>();
 
-    private Map<String, Object> filter(Map<String, Object> values) {
         for (String key : keys) {
-            values.remove(key);
+            if (!map.containsKey(key)) {
+                // TODO: throw error
+            } else {
+                filteredMap.put(key, map.get(key));
+            }
         }
-        return values;
+
+        this.jsonObject.setValues(filteredMap);
     }
 }
