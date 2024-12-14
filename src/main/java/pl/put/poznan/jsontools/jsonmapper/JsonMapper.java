@@ -3,6 +3,8 @@ package pl.put.poznan.jsontools.jsonmapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
@@ -14,6 +16,7 @@ import java.util.Map;
  */
 public class JsonMapper {
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Logger logger = LoggerFactory.getLogger(JsonMapper.class);
 
     /**
      * Mapuje strukturę JsonDTO na strukturę JsonObject, zachowując wszystkie pary klucz-wartość oryginalnego JSONa
@@ -27,6 +30,7 @@ public class JsonMapper {
     public JsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
         Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {
         });
+        logger.debug("json map: {}", jsonValues.toString());
         return new JsonObject(jsonValues);
     }
 
