@@ -54,6 +54,7 @@ Pierwsze zdanie będące zwięzłym opisem zaczyna się od czasownika.
 - `@param` (dla metod i konstruktorów)
 - `@return` (dla metod)
 - `@exception` (dla metod)
+- `@see` (dla metod)
 #### Zalecane jest używanie  `<code>...</code>` dla kluczowych słów/nazw takich jak:
 - Java keywords
 - package names
@@ -63,3 +64,6 @@ Pierwsze zdanie będące zwięzłym opisem zaczyna się od czasownika.
 - field names
 - argument names
 - code examples
+
+W celu wygenerowania dokumentacji na potrzeby jej zweryfikowania, można posłużyć się komendą `mvn javadoc::javadoc`.
+Dokumentacja zostanie umieszczona w **target -> reports-> apidocs**.
