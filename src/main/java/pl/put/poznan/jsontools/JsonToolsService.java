@@ -1,6 +1,8 @@
 package pl.put.poznan.jsontools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.jsonmapper.JsonMapper;
@@ -10,6 +12,7 @@ import pl.put.poznan.jsontools.types.JsonObject;
 @Service
 public class JsonToolsService {
 
+    private static final Logger logger = LoggerFactory.getLogger(JsonToolsService.class);
     private final JsonMapper jsonMapper = new JsonMapper();
 
     /**
@@ -22,6 +25,7 @@ public class JsonToolsService {
         try {
             return jsonMapper.toJsonDto(jsonMapper.toJsonObject(inputJson));
         } catch (JsonProcessingException e) {
+            logger.debug("tried minifying an invalid JSON: {}", inputJson.jsonString());
             throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
         }
     }
@@ -38,6 +42,7 @@ public class JsonToolsService {
             JsonObject jsonObject = jsonMapper.toJsonObject(inputJson);
             return jsonMapper.toJsonDtoWithFormat(jsonObject);
         } catch (JsonProcessingException e) {
+            logger.debug("tried minifying an invalid JSON: {}", inputJson.jsonString());
             throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
         }
     }
