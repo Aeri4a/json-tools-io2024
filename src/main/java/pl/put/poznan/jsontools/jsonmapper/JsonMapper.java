@@ -52,6 +52,7 @@ public class JsonMapper {
      */
     public JsonDto toJsonDto(IJsonObject jsonObject) throws JsonProcessingException {
         return new JsonDto(objectMapper.writeValueAsString(jsonObject.getValues()), null, null);
+    }
 
     /**
      * Mapuje strukturę JsonObject na strukturę JsonDto, zachowując wszystkie pary klucz-wartość oryginalnego JSONa.
@@ -63,8 +64,8 @@ public class JsonMapper {
      * @see JsonObject
      * @see JsonDto
      */
-    public JsonDto toJsonDtoWithFormat(JsonObject jsonObject) throws JsonProcessingException {
-        return new JsonDto(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject.getValues()));
+    public JsonDto toJsonDtoWithFormat(IJsonObject jsonObject) throws JsonProcessingException {
+        return new JsonDto(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject.getValues()), null, null);
     }
 
 }
