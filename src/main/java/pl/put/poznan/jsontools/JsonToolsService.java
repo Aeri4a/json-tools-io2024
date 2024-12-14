@@ -27,7 +27,7 @@ public class JsonToolsService {
     }
 
     /**
-     * Przekształca JSON w zminifikowanym zapisie na pełną strukturę. Jeżeli JSON jest w syntaktycznie niepoprawny,
+     * Przekształca JSON w zminifikowanym zapisie na pełną strukturę. Jeżeli JSON jest syntaktycznie niepoprawny,
      * metoda wyrzuca wyjątek InvalidInputException
      *
      * @param inputJson obiekt zawierający String w formacie JSON

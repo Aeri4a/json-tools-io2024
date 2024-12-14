@@ -12,7 +12,6 @@ import java.util.Map;
 /**
  * Klasa typu Service zawierająca metody do przekształcania JSONa między postacią w formacie String oraz obiektu JsonObject
  */
-@Service
 public class JsonMapper {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
