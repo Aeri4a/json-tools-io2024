@@ -3,13 +3,12 @@ package pl.put.poznan.jsontools.jsonmapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Service;
+import pl.put.poznan.jsontools.decorations.ExclusionDecorator;
 import pl.put.poznan.jsontools.decorations.InclusionDecorator;
 import pl.put.poznan.jsontools.types.IJsonObject;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +34,7 @@ public class JsonMapper {
             jsonObject = new InclusionDecorator(jsonObject, jsonDto.includeKeys());
         }
         if (jsonDto.excludeKeys() != null) {
-            ;
+            jsonObject = new ExclusionDecorator(jsonObject, jsonDto.excludeKeys());
         }
 
         return jsonObject;
