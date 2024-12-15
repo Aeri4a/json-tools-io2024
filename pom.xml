@@ -60,6 +60,7 @@
                     <show>private</show>
                     <nohelp>false</nohelp>
                     <charset>UTF-8</charset>
+                    <doclint>all,-missing</doclint>
                 </configuration>
                 <executions>
                     <execution>
