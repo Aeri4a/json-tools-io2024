@@ -1,12 +1,15 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main  
+      - maint/12
   pull_request:
     branches:
       - main
+      - maint/12
 
 jobs:
   build-and-test:
