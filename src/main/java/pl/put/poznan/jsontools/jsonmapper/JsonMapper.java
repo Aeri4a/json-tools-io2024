@@ -3,8 +3,8 @@ package pl.put.poznan.jsontools.jsonmapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pl.put.poznan.jsontools.decorations.ExclusionDecorator;
-import pl.put.poznan.jsontools.decorations.InclusionDecorator;
+import pl.put.poznan.jsontools.decorators.ExclusionDecorator;
+import pl.put.poznan.jsontools.decorators.InclusionDecorator;
 import pl.put.poznan.jsontools.types.IJsonObject;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
@@ -15,6 +15,10 @@ import java.util.Map;
  * Klasa typu Service zawierająca metody do przekształcania JSONa między postacią w formacie String oraz obiektu JsonObject
  */
 public class JsonMapper {
+
+    /**
+     * Obiekt mappera z biblioteki Jackson wykorzystywany do przetwarzania formatu json
+     */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
