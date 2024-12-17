@@ -1,6 +1,7 @@
 name: Build and Release JAR on Tag
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
