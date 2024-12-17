@@ -1,4 +1,4 @@
-package pl.put.poznan.jsontools.decorations;
+package pl.put.poznan.jsontools.decorators;
 
 
 import pl.put.poznan.jsontools.types.IJsonObject;

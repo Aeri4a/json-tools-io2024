@@ -7,6 +7,12 @@ import java.util.Objects;
  * Struktura przechowująca JSONa w postaci mapy klucz-wartość
  */
 public class JsonObject implements IJsonObject {
+
+    /**
+     * Zmienna przechowująca mapę zawierającą
+     * nazwę własności jako klucz i obiekt jako wartość
+     * w oryginalnym jsonie będącym w formacie łańcuchu znaków
+     */
     private Map<String, Object> values;
 
     public JsonObject(Map<String, Object> values) {

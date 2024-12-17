@@ -8,12 +8,19 @@ import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.jsonmapper.JsonMapper;
 import pl.put.poznan.jsontools.types.IJsonObject;
 import pl.put.poznan.jsontools.types.JsonDto;
-import pl.put.poznan.jsontools.types.JsonObject;
 
+/**
+ * Klasa JsonToolsService zawiera metody wywoływane przez JsonToolsController
+ * w odpowiedzi na przychodzęce requesty. Metody wykonują operację/przekazują sterowanie do innych obiektów.
+ */
 @Service
 public class JsonToolsService {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonToolsService.class);
+
+    /**
+     * Instancja mappera wykonuje operacje na obiekcie JsonObject, JsonDto i przetwarzanym stringu
+     */
     private final JsonMapper jsonMapper = new JsonMapper();
 
     /**
