@@ -19,7 +19,16 @@ public class JsonMapper {
     /**
      * Obiekt mappera z biblioteki Jackson wykorzystywany do przetwarzania formatu json
      */
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
+
+
+    public JsonMapper() {
+        this.objectMapper = new ObjectMapper();
+    }
+
+    public JsonMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     /**
      * Mapuje strukturę JsonDTO na strukturę JsonObject, zachowując wszystkie pary klucz-wartość oryginalnego JSONa
