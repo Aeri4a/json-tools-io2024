@@ -34,5 +34,5 @@ rm pom.xml.versionsBackup
 echo "Successfully bumped version to $new_proj_ver!"
 
 git add pom.xml
-git commit -qm "Nowy release: $new_proj_ver"
+git commit -qm "release: :bookmark: with new version $new_proj_ver"
 git push -q
