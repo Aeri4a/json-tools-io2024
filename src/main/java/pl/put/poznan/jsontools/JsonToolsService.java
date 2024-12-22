@@ -26,7 +26,15 @@ public class JsonToolsService {
     /**
      * Instancja mappera wykonuje operacje na obiekcie JsonObject, JsonDto i przetwarzanym stringu
      */
-    private final JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper;
+
+    public JsonToolsService() {
+        this.jsonMapper = new JsonMapper();
+    }
+
+    public JsonToolsService(JsonMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
+    }
 
     /**
      * Minifikuje otrzymaną strukturę JSON
