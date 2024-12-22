@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service;
 import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.jsonmapper.JsonMapper;
 import pl.put.poznan.jsontools.types.IJsonObject;
+import pl.put.poznan.jsontools.types.InputCompareDto;
 import pl.put.poznan.jsontools.types.JsonDto;
+import pl.put.poznan.jsontools.types.OutputCompareDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Klasa JsonToolsService zawiera metody wywoływane przez JsonToolsController
@@ -53,5 +58,23 @@ public class JsonToolsService {
             logger.debug("tried minifying an invalid JSON: {}", inputJson.jsonString());
             throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
         }
+    }
+
+    public OutputCompareDto compare(InputCompareDto inputStrings) {
+        String[] lines1 = inputStrings.string1().split("\\R");
+        String[] lines2 = inputStrings.string2().split("\\R");
+
+        List<Integer> result = new ArrayList<>();
+        int linesNumber = Math.max(lines1.length, lines2.length);
+
+        for (int i = 0; i < linesNumber; i++) {
+            String line1 = (i < lines1.length) ? lines1[i].trim() : "";
+            String line2 = (i < lines2.length) ? lines2[i].trim() : "";
+
+            if (!line1.equals(line2)) {
+                result.add(i + 1);
+            }
+        }
+        return new OutputCompareDto(result);
     }
 }
