@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.put.poznan.jsontools.types.JsonDto;
+import pl.put.poznan.jsontools.types.UnnestedJsonDto;
 
 @RestController
 @RequestMapping("/json")
@@ -39,5 +40,16 @@ public class JsonToolsController {
         JsonDto formattedJson = jsonToolsService.format(inputJson);
         logger.debug("formatted JSON:\n{}", formattedJson.jsonString());
         return ResponseEntity.ok(formattedJson);
+    }
+
+    @PostMapping("/unnest")
+    public ResponseEntity<UnnestedJsonDto> unnestJson(@RequestBody JsonDto inputJson, HttpServletRequest request) {
+        logger.info("handled request at {}", request.getRequestURL().toString());
+        logger.debug("request body at unnestJson: {}", inputJson.jsonString());
+
+        // do it
+        UnnestedJsonDto unnestedJson = jsonToolsService.unnest(inputJson);
+
+        return  ResponseEntity.ok(unnestedJson);
     }
 }
