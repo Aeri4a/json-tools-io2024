@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Klasa JsonToolsService zawiera metody wywoływane przez JsonToolsController
- * w odpowiedzi na przychodzęce requesty. Metody wykonują operację/przekazują sterowanie do innych obiektów.
+ * w odpowiedzi na przychodzące requesty. Metody wykonują operację/przekazują sterowanie do innych obiektów.
  */
 @Service
 public class JsonToolsService {
@@ -68,6 +68,15 @@ public class JsonToolsService {
         }
     }
 
+    /**
+     * Porównuje dwa obiekty String i identyfikuje numery linii, które są od siebie różne.
+     * <p>
+     * Dzieli dane wejściowe na linie i porównuje odpowiadające sobie linie.
+     * Jeżeli linie są różne, ich numer jest dodawany do listy result.
+     *
+     * @param inputStrings obiekt typu {@link InputCompareDto}, zawierający dwa ciągi tekstowe, które mają zostać porównane
+     * @return obiekt {@link OutputCompareDto}, zawierający listę numerów linii, które różnią się między sobą
+     */
     public OutputCompareDto compare(InputCompareDto inputStrings) {
         String[] lines1 = inputStrings.string1().split("\\R");
         String[] lines2 = inputStrings.string2().split("\\R");
