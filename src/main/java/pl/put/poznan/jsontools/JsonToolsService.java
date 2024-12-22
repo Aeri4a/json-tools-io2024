@@ -78,6 +78,10 @@ public class JsonToolsService {
      * @return obiekt {@link OutputCompareDto}, zawierający listę numerów linii, które różnią się między sobą
      */
     public OutputCompareDto compare(InputCompareDto inputStrings) {
+        if (inputStrings.string1() == null || inputStrings.string2() == null) {
+            throw new InvalidInputException("at last one of string is null");
+        }
+
         String[] lines1 = inputStrings.string1().split("\\R");
         String[] lines2 = inputStrings.string2().split("\\R");
 
