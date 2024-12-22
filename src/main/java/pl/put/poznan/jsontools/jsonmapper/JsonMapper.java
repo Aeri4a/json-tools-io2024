@@ -8,7 +8,10 @@ import pl.put.poznan.jsontools.decorators.InclusionDecorator;
 import pl.put.poznan.jsontools.types.IJsonObject;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.JsonObject;
+import pl.put.poznan.jsontools.types.UnnestedJsonDto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +43,8 @@ public class JsonMapper {
      * @see JsonDto
      */
     public IJsonObject toJsonObject(JsonDto jsonDto) throws JsonProcessingException {
-        Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {});
+        Map<String, Object> jsonValues = objectMapper.readValue(jsonDto.jsonString(), new TypeReference<>() {
+        });
         IJsonObject jsonObject = new JsonObject(jsonValues);
 
         if (jsonDto.includeKeys() != null) {
@@ -80,4 +84,20 @@ public class JsonMapper {
         return new JsonDto(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject.getValues()), null, null);
     }
 
+    /**
+     * Mapuje strukturę List<JsonObject> na strukturę UnnestedJsonDto z
+     *
+     * @param jsonObjects lista obiektów zawierającuych reprezentację JSONa w postaci mapy klucz-wartość
+     * @return Lista zawierający reprezentację każdej zagnieżdżonej struktury JSON
+     * @throws JsonProcessingException Nie powinno się nigdy stać na tym etapie, ale teoretycznie może
+     * @see JsonObject
+     * @see JsonDto
+     */
+    public UnnestedJsonDto toUnnestedJsonDto(List<IJsonObject> jsonObjects) throws JsonProcessingException {
+        List<JsonDto> jsonDtos = new ArrayList<>();
+        for (IJsonObject jsonObject : jsonObjects) {
+            jsonDtos.add(toJsonDto(jsonObject));
+        }
+        return new UnnestedJsonDto(jsonDtos);
+    }
 }
