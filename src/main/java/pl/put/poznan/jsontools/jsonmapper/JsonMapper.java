@@ -85,8 +85,7 @@ public class JsonMapper {
     }
 
     /**
-     * Mapuje strukturę List<JsonObject> na strukturę UnnestedJsonDto z
-     *
+     * Mapuje strukturę listę JsonObject na strukturę UnnestedJsonDto
      * @param jsonObjects lista obiektów zawierającuych reprezentację JSONa w postaci mapy klucz-wartość
      * @return Lista zawierający reprezentację każdej zagnieżdżonej struktury JSON
      * @throws JsonProcessingException Nie powinno się nigdy stać na tym etapie, ale teoretycznie może

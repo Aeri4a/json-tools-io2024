@@ -76,7 +76,7 @@ public class JsonToolsService {
      * metoda wyrzuca wyjątek InvalidInputException
      *
      * @param jsonObject reprezentacja struktury JSON jaka para klucz, wartość
-     * @returns Listę zawierającą wszystkie zagnieżdżone struktury
+     * @return Listę zawierającą wszystkie zagnieżdżone struktury
      */
     private List<IJsonObject> unnest_rec(LinkedHashMap<String, ?> jsonObject) {
         List<IJsonObject> unnest = new ArrayList<>();
