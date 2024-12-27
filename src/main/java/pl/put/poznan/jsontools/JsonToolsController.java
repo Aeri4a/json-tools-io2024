@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.put.poznan.jsontools.types.InputCompareDto;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.OutputCompareDto;
+import pl.put.poznan.jsontools.types.UnnestedJsonDto;
 
 @RestController
 @RequestMapping("/json")
@@ -51,5 +52,15 @@ public class JsonToolsController {
         OutputCompareDto comparisonResult = jsonToolsService.compare(inputJsons);
         logger.debug("comparison result: {}", comparisonResult);
         return ResponseEntity.ok(comparisonResult);
+    }
+
+    @PostMapping("/unnest")
+    public ResponseEntity<UnnestedJsonDto> unnestJson(@RequestBody JsonDto inputJson, HttpServletRequest request) {
+        logger.info("handled request at {}", request.getRequestURL().toString());
+        logger.debug("request body at unnestJson: {}", inputJson.jsonString());
+
+        UnnestedJsonDto unnestedJson = jsonToolsService.unnest(inputJson);
+
+        return  ResponseEntity.ok(unnestedJson);
     }
 }

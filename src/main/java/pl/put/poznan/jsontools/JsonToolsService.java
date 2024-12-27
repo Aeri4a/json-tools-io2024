@@ -13,6 +13,10 @@ import pl.put.poznan.jsontools.types.OutputCompareDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import pl.put.poznan.jsontools.types.JsonObject;
+import pl.put.poznan.jsontools.types.UnnestedJsonDto;
+
+import java.util.*;
 
 /**
  * Klasa JsonToolsService zawiera metody wywoływane przez JsonToolsController
@@ -64,6 +68,73 @@ public class JsonToolsService {
             return jsonMapper.toJsonDtoWithFormat(jsonObject);
         } catch (JsonProcessingException e) {
             logger.debug("tried minifying an invalid JSON: {}", inputJson.jsonString());
+            throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
+        }
+    }
+    /**
+     * Rekursywnie przechodzi przez strukturę JSON dodając do listy znalezione zagnieżdżenia
+     * metoda wyrzuca wyjątek InvalidInputException
+     *
+     * @param jsonObject reprezentacja struktury JSON jaka para klucz, wartość
+     * @return Listę zawierającą wszystkie zagnieżdżone struktury
+     */
+    private List<IJsonObject> unnest_rec(LinkedHashMap<String, ?> jsonObject) {
+        List<IJsonObject> unnest = new ArrayList<>();
+        Map<String, Object> tmp = new HashMap<>();
+        for (String key : jsonObject.keySet()) {
+            if (jsonObject.get(key) instanceof LinkedHashMap<?,?>) {
+                    LinkedHashMap<String,?> value = (LinkedHashMap<String, ?>) jsonObject.get(key);
+                    unnest_rec(value, unnest);
+            } else {
+                tmp.put(key, jsonObject.get(key));
+            }
+        }
+
+        IJsonObject item = new JsonObject(tmp);
+        unnest.add(item);
+
+        return unnest;
+    }
+
+    /**
+     * Rekursywnie przechodzi przez strukturę JSON dodając do listy znalezione zagnieżdżenia
+     * metoda wyrzuca wyjątek InvalidInputException
+     *
+     * @param jsonObject reprezentacja struktury JSON jaka para klucz, wartość
+     */
+    private void unnest_rec(LinkedHashMap<String,?> jsonObject, List<IJsonObject> jsonList) {
+        Map<String, Object> tmp = new HashMap<>();
+        for (String key : jsonObject.keySet()) {
+            if (jsonObject.get(key) instanceof LinkedHashMap<?, ?>) {
+                LinkedHashMap<String, ?> value = (LinkedHashMap<String, ?>) jsonObject.get(key);
+                unnest_rec(value, jsonList);
+            } else {
+                tmp.put(key, jsonObject.get(key));
+            }
+        }
+
+        IJsonObject item = new JsonObject(tmp);
+        if (!item.getValues().isEmpty()){
+            jsonList.add(item);
+        }
+    }
+
+    /**
+     * Przekształca JSON w listę wszystkich struktur JSON poprzez usuwanie zagnieżdżeń
+     * metoda wyrzuca wyjątek InvalidInputException
+     *
+     * @param inputJson obiekt zawierający String w formacie JSON
+     * @return Obiekt zawierający listę wszystkich struktur JSON nie posiądających zagnieżdżeń
+     */
+    public UnnestedJsonDto unnest(JsonDto inputJson) {
+        try {
+            Map<String, Object> jsonObject = jsonMapper.toJsonObject(inputJson).getValues();
+
+            List<IJsonObject> unnested = unnest_rec((LinkedHashMap<String, ?>) jsonObject);
+
+            return jsonMapper.toUnnestedJsonDto(unnested);
+        } catch (JsonProcessingException e) {
+            logger.debug("tried unnesting an invalid JSON: {}", inputJson.jsonString());
             throw new InvalidInputException("jsonString jest w niepoprawnym formacie");
         }
     }
