@@ -7,8 +7,13 @@ import pl.put.poznan.jsontools.exceptions.InvalidInputException;
 import pl.put.poznan.jsontools.jsonmapper.JsonMapper;
 import pl.put.poznan.jsontools.types.InputCompareDto;
 import pl.put.poznan.jsontools.types.JsonDto;
+import pl.put.poznan.jsontools.types.JsonObject;
+import pl.put.poznan.jsontools.types.UnnestedJsonDto;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -115,5 +120,29 @@ public class JsonToolsServiceTest {
         var jsonToolsService = new JsonToolsService();
 
         assertThrows(InvalidInputException.class, () -> jsonToolsService.compare(input));
+    }
+
+    @Test
+    void shouldUnnestExtractNestedValues() throws JsonProcessingException {
+        var jsonToolsService = new JsonToolsService();
+
+        var jsonDto = new JsonDto("{\"first\":{\"f1\":\"vf1\",\"f2\":\"vf2\"},\"second\":{\"s1\":\"vs1\"}}", null, null);
+
+        var resultDto = new UnnestedJsonDto(List.of(
+                new JsonDto("{\"f1\":\"vf1\",\"f2\":\"vf2\"}", null, null),
+                new JsonDto("{\"s1\":\"vs1\"}", null, null),
+                new JsonDto("{}", null, null)
+                ));
+
+        assertEquals(resultDto, jsonToolsService.unnest(jsonDto));
+    }
+
+    @Test
+    void shouldUnnestThrowInvalidInputExceptionIfJsonIsIncorrect() throws JsonProcessingException {
+        var jsonDto = new JsonDto("{\"first\":{\"f1\":\"vf1,\"f2\":\"vf2\"},\"second\":{s1\":\"vs1\"}}", null, null);
+
+        var jsonToolsService = new JsonToolsService();
+
+        assertThrows(InvalidInputException.class, () -> jsonToolsService.unnest(jsonDto));
     }
 }
