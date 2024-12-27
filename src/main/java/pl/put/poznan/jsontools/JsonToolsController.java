@@ -59,7 +59,6 @@ public class JsonToolsController {
         logger.info("handled request at {}", request.getRequestURL().toString());
         logger.debug("request body at unnestJson: {}", inputJson.jsonString());
 
-        // do it
         UnnestedJsonDto unnestedJson = jsonToolsService.unnest(inputJson);
 
         return  ResponseEntity.ok(unnestedJson);
