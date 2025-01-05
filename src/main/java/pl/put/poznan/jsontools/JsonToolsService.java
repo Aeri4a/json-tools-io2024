@@ -1,6 +1,10 @@
 package pl.put.poznan.jsontools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.DeltaType;
+import com.github.difflib.patch.Patch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -140,33 +144,56 @@ public class JsonToolsService {
     }
 
     /**
-     * Porównuje dwa obiekty String i identyfikuje numery linii, które są od siebie różne.
-     * <p>
-     * Dzieli dane wejściowe na linie i porównuje odpowiadające sobie linie.
-     * Jeżeli linie są różne, ich numer jest dodawany do listy result.
+     * Porównuje dwa obiekty String i identyfikuje różnice między nimi w domyślnym formacie diff (Unix)
      *
      * @param inputStrings obiekt typu {@link InputCompareDto}, zawierający dwa ciągi tekstowe, które mają zostać porównane
-     * @return obiekt {@link OutputCompareDto}, zawierający listę numerów linii, które różnią się między sobą
+     * @return obiekt {@link OutputCompareDto}, zawierający listę różnic diff
      */
     public OutputCompareDto compare(InputCompareDto inputStrings) {
-        if (inputStrings.string1() == null || inputStrings.string2() == null) {
-            throw new InvalidInputException("at last one of string is null");
-        }
+        List<String> string1 = Arrays.asList(inputStrings.string1().split("\n"));
+        List<String> string2 = Arrays.asList(inputStrings.string2().split("\n"));
 
-        String[] lines1 = inputStrings.string1().split("\\R");
-        String[] lines2 = inputStrings.string2().split("\\R");
+        List<String> result = new ArrayList<>();
 
-        List<Integer> result = new ArrayList<>();
-        int linesNumber = Math.max(lines1.length, lines2.length);
+        Patch<String> patch = DiffUtils.diff(string1, string2);
 
-        for (int i = 0; i < linesNumber; i++) {
-            String line1 = (i < lines1.length) ? lines1[i].trim() : "";
-            String line2 = (i < lines2.length) ? lines2[i].trim() : "";
+        for (AbstractDelta<String> delta : patch.getDeltas()) {
+            DeltaType type = delta.getType();
+            int position1 = delta.getSource().getPosition() + 1;
+            int position2 = delta.getTarget().getPosition() + 1;
 
-            if (!line1.equals(line2)) {
-                result.add(i + 1);
+            List<String> oldLines = delta.getSource().getLines();
+            List<String> newLines = delta.getTarget().getLines();
+
+            switch (type) {
+                case DELETE:
+                    result.add(position1 + "d" + (position2 - 1));
+                    for (String line : oldLines) {
+                        result.add("< " + line);
+                    }
+                    break;
+                case INSERT:
+                    result.add((position1 - 1) + "a" + position2 + (newLines.size() > 1 ? "," + (position2 + newLines.size() - 1) : ""));
+                    for (String line : newLines) {
+                        result.add("> " + line);
+                    }
+                    break;
+                case CHANGE:
+                    result.add(
+                            (position1 + (oldLines.size() > 1 ? "," + (position1 + oldLines.size() - 1) : "")) + "c" + position2
+                                    + (newLines.size() > 1 ? "," + (position2 + newLines.size() - 1) : "")
+                    );
+                    for (String line : oldLines) {
+                        result.add("< " + line);
+                    }
+                    result.add("---");
+                    for (String line : newLines) {
+                        result.add("> " + line);
+                    }
+                    break;
             }
         }
+
         return new OutputCompareDto(result);
     }
 }
