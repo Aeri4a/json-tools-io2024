@@ -15,6 +15,9 @@ import pl.put.poznan.jsontools.types.InputCompareDto;
 import pl.put.poznan.jsontools.types.JsonDto;
 import pl.put.poznan.jsontools.types.OutputCompareDto;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import pl.put.poznan.jsontools.types.JsonObject;
@@ -144,14 +147,36 @@ public class JsonToolsService {
     }
 
     /**
+     * Rozbija obiekt String na listę linijek w nim się zawierających z uszanowaniem pustych linii
+     *
+     * @param string obiekt, który ma zostać przekształcony na listę stringów
+     * @return obiekt będący listą linijek obecnych w oryginalnym stringu
+     */
+    private List<String> splitLines(String string) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new StringReader(string))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            if (string.endsWith("\n") || string.isEmpty()) {
+                lines.add("");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error splitting lines", e);
+        }
+        return lines;
+    }
+
+    /**
      * Porównuje dwa obiekty String i identyfikuje różnice między nimi w domyślnym formacie diff (Unix)
      *
      * @param inputStrings obiekt typu {@link InputCompareDto}, zawierający dwa ciągi tekstowe, które mają zostać porównane
      * @return obiekt {@link OutputCompareDto}, zawierający listę różnic diff
      */
     public OutputCompareDto compare(InputCompareDto inputStrings) {
-        List<String> string1 = Arrays.asList(inputStrings.string1().split("\n"));
-        List<String> string2 = Arrays.asList(inputStrings.string2().split("\n"));
+        List<String> string1 = splitLines(inputStrings.string1());
+        List<String> string2 = splitLines(inputStrings.string2());
 
         List<String> result = new ArrayList<>();
 
