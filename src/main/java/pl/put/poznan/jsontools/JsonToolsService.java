@@ -175,6 +175,10 @@ public class JsonToolsService {
      * @return obiekt {@link OutputCompareDto}, zawierający listę różnic diff
      */
     public OutputCompareDto compare(InputCompareDto inputStrings) {
+        if (inputStrings.string1() == null || inputStrings.string2() == null) {
+            throw new InvalidInputException("at least one of strings is null");
+        }
+
         List<String> string1 = splitLines(inputStrings.string1());
         List<String> string2 = splitLines(inputStrings.string2());
 
