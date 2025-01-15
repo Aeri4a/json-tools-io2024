@@ -83,43 +83,53 @@ public class JsonToolsServiceTest {
 
         var jsonToolsService = new JsonToolsService();
 
-        assertEquals(0, jsonToolsService.compare(input).differentLines().size());
+        assertTrue(jsonToolsService.compare(input).differences().isEmpty());
     }
 
     @Test
-    void compareShouldReturnOneDifferenceOneLineEqualLength() {
+    void compareShouldReturnOneChangeOneLineEqualLength() {
         var input = new InputCompareDto("olleh", "hello");
 
         var jsonToolsService = new JsonToolsService();
 
-        assertEquals(List.of(1), jsonToolsService.compare(input).differentLines());
+        assertEquals(List.of("1c1", "< olleh", "---", "> hello"), jsonToolsService.compare(input).differences());
     }
 
     @Test
-    void compareShouldReturnOneDifferenceIfOneLineIsEmpty() {
+    void compareShouldReturnOneChangeIfOneLineIsEmpty() {
         var input = new InputCompareDto("abc\ncba", "\ncba");
 
         var jsonToolsService = new JsonToolsService();
 
-        assertEquals(List.of(1), jsonToolsService.compare(input).differentLines());
+        assertEquals(List.of("1c1", "< abc", "---", "> "), jsonToolsService.compare(input).differences());
     }
 
     @Test
-    void compareShouldReturnTwoDifferencesIfLinesAreEmptyAlternately() {
+    void compareShouldReturnOneDeleteAndOneAdditionIfLinesAreEmptyAlternately() {
         var input = new InputCompareDto("\ncba", "cba\n");
 
         var jsonToolsService = new JsonToolsService();
 
-        assertEquals(List.of(1, 2), jsonToolsService.compare(input).differentLines());
+        assertEquals(List.of("1d0", "< ", "2a2", "> "), jsonToolsService.compare(input).differences());
     }
 
     @Test
-    void compareShouldReturnEmptyListIfTwoStringsAreEmpty() {
-        var input = new InputCompareDto(null, null);
+    void compareShouldReturnOneChangeIfOneStringIsEmpty() {
+        var input = new InputCompareDto("hello", "");
 
         var jsonToolsService = new JsonToolsService();
 
-        assertThrows(InvalidInputException.class, () -> jsonToolsService.compare(input));
+        assertEquals(List.of("1c1", "< hello", "---", "> "), jsonToolsService.compare(input).differences());
+    }
+
+
+    @Test
+    void compareShouldReturnEmptyListIfTwoStringsAreEmpty() {
+        var input = new InputCompareDto("", "");
+
+        var jsonToolsService = new JsonToolsService();
+
+        assertTrue(jsonToolsService.compare(input).differences().isEmpty());
     }
 
     @Test
